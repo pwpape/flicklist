@@ -1,8 +1,8 @@
 
 
-var api = {
+let api = {
 	root: "https://api.themoviedb.org/3",
-	token: "" // TODO put your api key here
+	token: "ab1f9afbcbfd46c30e41b23429ca4dd9"
 }
 
 /**
