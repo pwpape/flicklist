@@ -43,11 +43,25 @@ function discoverMovies(callback) {
  */
 function render() {
   // TODO 7
-  // clear everything from both lists
-  
+	// clear everything from both lists
+	let watchlistClear = document.getElementById("watchlist");
+	while (watchlistClear.firstChild) {
+		watchlistClear.removeChild(watchlistClear.firstChild)
+	}
+
+	let browselistClear = document.getElementById("our-list");
+	while (browselistClear.firstChild) {
+		browselistClear.removeChild(browselistClear.firstChild)
+	}
+
   // TODO 6
-  // for each movie on the user's watchlist, insert a list item into the <ul> in the watchlist section
-  
+	// for each movie on the user's watchlist, insert a list item into the <ul> in the watchlist section
+	model.watchlistItems.forEach((title) => {
+		let watchlist = document.getElementById("watchlist");
+		let watchlistItem = document.createElement("li");
+		watchlistItem.innerHTML = title;
+		watchlist.appendChild(watchlistItem);
+})
   // for each movie on the current browse list, 
   model.browseItems.forEach(function(movie) {
 		// TODO 3
@@ -57,6 +71,12 @@ function render() {
 		let button = document.createElement("button");
 		listItem.innerHTML = movie.original_title;
 		button.innerHTML = "Add to Watchlist";
+		let updateWatchlist = function () {
+			model.watchlistItems.push(movie.original_title);
+			render();
+		}
+		button.addEventListener("click", updateWatchlist);
+		
 		listItem.appendChild(button);
 		ourList.appendChild(listItem)
 		// TODO 4
