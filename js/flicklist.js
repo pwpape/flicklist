@@ -31,7 +31,8 @@ function discoverMovies(callback) {
       api_key: api.token
     },
     success: function(response) {
-      model.browseItems = response.results;
+			model.browseItems = response.results;
+			console.log(model.browseItems);
       callback();
     }
   });
@@ -51,8 +52,16 @@ function searchMovies(searchTerm, callback) {
   // TODO 9
   // implement this function as described in the comment above
   // you can use the body of discoverMovies as a jumping off point
-
-
+	$.ajax({
+		url: api.root + "/search/movie" + searchTerm,
+	    data: {
+	      api_key: api.token
+	    },
+	    success: function(response) {
+	      model.browseItems = response.results;
+	      callback();
+	    }
+	  });
 }
 
 
@@ -67,9 +76,8 @@ function render() {
 
   // insert watchlist items
   model.watchlistItems.forEach(function(movie) {
-    var title = $("<p></p>").text(movie.original_title);
-    var itemView = $("<li></li>")
-      .append(title)
+		var title = $("<p></p>").text(movie.original_title);
+		var itemView = $("<li></li>").append(title);
       // TODO 3
       // give itemView a class attribute of "item-watchlist"
 
@@ -78,7 +86,8 @@ function render() {
 
   // insert browse items
   model.browseItems.forEach(function(movie) {
-    var title = $("<h4></h4>").text(movie.original_title);
+		var title = $("<h4></h4>").text(movie.original_title);
+		let overview = $("<p></p>").text(movie.overview);
     var button = $("<button></button>")
       .text("Add to Watchlist")
       .click(function() {
@@ -100,7 +109,8 @@ function render() {
     // append everything to itemView, along with an <hr/>
     var itemView = $("<li></li>")
       .append($("<hr/>"))
-      .append(title)
+			.append(title)
+			.append(overview)
       .append(button);
 
     // append the itemView to the list
